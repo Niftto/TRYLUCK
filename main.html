@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpiceWar - Fun Discounts</title>
+  <style>
+body {
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #ff7e5f, #feb47b);
+      color: #333;
+    }
+
+    .header {
+      text-align: center;
+      padding: 40px 20px;
+      background: #ff6600;
+      color: #fff;
+      font-size: 32px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    .games {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 25px 15px;
+      gap: 25px;
+    }
+
+    .game {
+      width: 100%;
+      max-width: 320px;
+      background: #fff;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      text-align: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .game:active {
+      transform: scale(0.97);
+    }
+
+    .game img {
+      width: 100%;
+      display: block;
+    }
+
+    .game-title {
+      padding: 20px 15px;
+      font-size: 24px;
+      font-weight: bold;
+      background: #ffecb3;
+      border-top: 1px solid #ffd580;
+    }
+
+    .footer {
+      padding: 35px 20px;
+      background: #ff6600;
+      color: #fff;
+      text-align: center;
+      font-size: 22px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      margin-top: 40px;
+    }
+
+    .footer a {
+      color: #fff;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="header">🎉 SpiceWar Discounts 🎉</div>
+
+  <div class="games">
+    <div class="game">
+      <a href="g1.html">
+        <img src="g1.png" alt="Lucky Discount Box">
+        <div class="game-title">Lucky Discount Box</div>
+      </a>
+    </div>
+    <div class="game">
+      <a href="g2.html">
+        <img src="g2.png" alt="Spin Off">
+        <div class="game-title">Spin Off</div>
+      </a>
+    </div>
+    <div class="game">
+      <a href="g3.html">
+        <img src="g3.png" alt="Lucky Wheel">
+        <div class="game-title">Lucky Wheel</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">
+    Want a custom game for you? <a href="contact.html">Contact Us</a>
+  </div>
+
+</body>
+</html>

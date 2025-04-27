@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lucky Spin Slot Machine</title>
+
+  <style>
+body {
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      padding: 0;
+      margin: 0;
+      background: linear-gradient(to right, #ff7e5f, #feb47b);
+      color: white;
+      box-sizing: border-box;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    .page-title {
+      font-size: 42px;
+      font-weight: bold;
+      color: #2196f3;
+      margin: 30px 0 15px 0;
+      text-shadow: 2px 2px 8px rgba(0, 100, 255, 0.6);
+      animation: glow 1.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #2196f3, 0 0 20px #2196f3, 0 0 30px #2196f3;
+      }
+      to {
+        text-shadow: 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #ffffff;
+      }
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #fff;
+      margin: 10px 0 30px 0;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .slot-container {
+      width: 90%;
+      max-width: 380px;
+      border: 5px solid #ffcc00;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      margin-bottom: 20px;
+    }
+
+    .slots {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      border-bottom: 4px solid #ffcc00;
+      background-color: #f7d07b;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .slot {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff6ec7, #ff9a8b);
+      font-weight: bold;
+      font-size: 16px;
+      border: 2px solid #ff6600;
+      border-radius: 10px;
+      color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .handle {
+      width: 80px;
+      height: 80px;
+      background-color: #ffcc00;
+      border-radius: 50%;
+      margin-top: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      color: #ff6600;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .handle:hover {
+      transform: scale(1.1);
+    }
+
+    #result {
+      margin-top: 25px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffcc00;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    .confetti {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background-color: #ffcc00;
+      border-radius: 50%;
+      animation: fall 2s ease-out forwards;
+    }
+
+    .confetti.green { background-color: #4caf50; }
+    .confetti.blue  { background-color: #2196f3; }
+
+    @keyframes fall {
+      0%   { top: -10%; transform: translateX(-50%) scale(1); }
+      100% { top: 100%;  transform: translateX(-50%) scale(0.5); }
+    }
+
+    #partyPopper {
+      display: none;
+      font-size: 60px;
+      color: #ffcc00;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pop 1s ease-out forwards;
+    }
+
+    @keyframes pop {
+      0%   { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+      50%  { transform: translate(-50%, -50%) scale(1.5); opacity: 0.7; }
+      100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
+      .page-title { font-size: 34px; margin: 24px 0 10px 0; }
+      h1         { font-size: 24px; margin: 10px 0 24px 0; }
+      .slot-container { padding: 15px; margin-bottom: 20px; }
+      .slot      { width: 70px; height: 70px; font-size: 14px; }
+      .handle    { width: 70px; height: 70px; font-size: 18px; }
+      #result    { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+<BR>
+<BR>
+<BR>
+<BR>
+  <div class="page-title">Lucky Spin 🎰</div>
+<BR>
+<BR>
+<BR>
+  <h1>Test Your Luck Here!</h1>
+<BR>
+<BR>
+  <div class="slot-container">
+    <div class="slots">
+      <div class="slot" id="slot1">---</div>
+      <div class="slot" id="slot2">---</div>
+      <div class="slot" id="slot3">---</div>
+    </div>
+
+    <div class="handle" id="handle" onclick="spinSlot()">Spin</div>
+    <div id="result"></div>
+    <div id="partyPopper">🎉</div>
+  </div>
+
+  <script>
+    let spinButton = document.getElementById('handle');
+    let resultText = document.getElementById('result');
+    let partyPopper = document.getElementById('partyPopper');
+    let slots = document.querySelectorAll('.slot');
+    let spun = false;
+
+    const rewards = [
+      { label: 'Try again next time', probability: 40 },
+      { label: '5% Off', probability: 30 },
+      { label: '10% Off', probability: 15 },
+      { label: '18% Off', probability: 10 },
+      { label: '20% Off', probability: 5 }
+    ];
+
+    function spinSlot() {
+      if (spun) return;
+      spun = true;
+      resultText.innerHTML = '';
+      partyPopper.style.display = 'none';
+
+      let rotations = 0;
+      let interval = setInterval(() => {
+        slots.forEach(slot => slot.textContent = getRandomReward());
+        rotations++;
+        if (rotations >= 20) {
+          clearInterval(interval);
+          displayResult();
+        }
+      }, 200);
+    }
+
+    function getRandomReward() {
+      let rand = Math.random() * 100;
+      let cumulative = 0;
+      for (let reward of rewards) {
+        cumulative += reward.probability;
+        if (rand <= cumulative) return reward.label;
+      }
+    }
+
+    function displayResult() {
+      let middleSlot = slots[1].textContent;
+      resultText.innerHTML = (middleSlot === 'Try again next time')
+        ? 'Better luck next time!'
+        : `You won: ${middleSlot}`;
+
+      if (middleSlot !== 'Try again next time') {
+        partyPopper.style.display = 'block';
+        setTimeout(() => { partyPopper.style.display = 'none'; }, 1000);
+        createConfetti();
+      }
+      spinButton.style.pointerEvents = 'none';
+    }
+
+    function createConfetti() {
+      for (let i = 0; i < 50; i++) {
+        let confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        if (Math.random() > 0.5) confetti.classList.add('green');
+        else confetti.classList.add('blue');
+        confetti.style.left = `${Math.random() * 100}%`;
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Lucky Discount Box Game</title>
+  <style>
+body {
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      text-align: center;
+      overflow-x: hidden;
+      animation: fadeIn 1s ease;
+      padding-top: 40px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    h1 {
+      margin: 40px 20px 80px; /* doubled top and bottom spacing */
+      font-size: 2rem;
+      color: #fff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 60px);
+      grid-gap: 12px;
+      justify-content: center;
+      margin: 0 auto 30px;
+      padding-top: 20px;
+    }
+
+    .box {
+      width: 60px;
+      height: 60px;
+      background: #ff4757;
+      color: #fff;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.5s ease;
+      opacity: 1;
+    }
+
+    .box:hover {
+      transform: scale(1.1);
+    }
+
+    #result {
+      font-size: 1.5rem;
+      margin: 20px;
+      color: #fff;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .confetti {
+      position: fixed;
+      top: -100px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      opacity: 0.7;
+      border-radius: 50%;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+      }
+    }
+
+    @media (min-width: 600px) {
+      body {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Lucky Discount Box 🎉</h1>
+  <div class="grid" id="grid"></div>
+  <div id="result"></div>
+  <div class="confetti hidden" id="confetti"></div>
+
+  <script>
+    const grid = document.getElementById('grid');
+    const result = document.getElementById('result');
+    const confetti = document.getElementById('confetti');
+
+    const prizes = Array(25).fill('💔');
+
+    const rarePrizes = [25, 20, 18, 15];
+    rarePrizes.forEach(prize => {
+      let pos;
+      do {
+        pos = Math.floor(Math.random() * 25);
+      } while (prizes[pos] !== '💔');
+      prizes[pos] = prize;
+    });
+
+    let availablePositions = prizes.map((_, i) => i).filter(i => prizes[i] === '💔');
+    const assignPrize = (prize) => {
+      if (availablePositions.length === 0) return;
+      const idx = availablePositions.splice(Math.floor(Math.random() * availablePositions.length), 1)[0];
+      prizes[idx] = prize;
+    };
+
+    assignPrize(5);
+    assignPrize(3);
+
+    if (Math.random() < 0.05) assignPrize(10);
+
+    let gameEnded = false;
+
+    for (let i = 0; i < 25; i++) {
+      const box = document.createElement('div');
+      box.classList.add('box');
+      box.innerText = '?';
+      box.onclick = () => pickBox(i, box);
+      grid.appendChild(box);
+    }
+
+    function pickBox(index, box) {
+      if (gameEnded) return;
+
+      const winPrize = prizes[index];
+
+      if (winPrize !== '💔') {
+        result.innerHTML = `🎉 Congratulations! You got ${winPrize}% OFF! 🎉`;
+        if (winPrize >= 10) showConfetti();
+      } else {
+        result.innerHTML = '💔 Try your luck next time!';
+      }
+
+      revealAllBoxes();
+      gameEnded = true;
+    }
+
+    function revealAllBoxes() {
+      const boxes = document.querySelectorAll('.box');
+      boxes.forEach((box, idx) => {
+        const prize = prizes[idx];
+        setTimeout(() => {
+          box.innerText = prize === '💔' ? '😢' : prize + '%';
+          box.style.background = prize === '💔' ? 'rgba(87,96,111,0.6)' : 'rgba(46,213,115,0.6)';
+          box.style.pointerEvents = 'none';
+          box.style.opacity = '0.7';
+        }, 150 * idx);
+      });
+    }
+
+    function showConfetti() {
+      confetti.classList.remove('hidden');
+      for (let i = 0; i < 150; i++) {
+        const piece = document.createElement('div');
+        piece.classList.add('confetti-piece');
+        piece.style.left = Math.random() * window.innerWidth + 'px';
+        piece.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        confetti.appendChild(piece);
+      }
+      setTimeout(() => {
+        confetti.innerHTML = '';
+        confetti.classList.add('hidden');
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
